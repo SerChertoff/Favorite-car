@@ -53,7 +53,7 @@ const getBasePath = () => {
     if (match && match[1] !== "index.html") {
       return "/" + match[1] + "/";
     }
-    return "/favorite-car/"; // Замените на имя вашего репозитория
+    return "/Favorite-car/"; // Замените на имя вашего репозитория
   }
   return "/";
 };
