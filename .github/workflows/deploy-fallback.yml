@@ -1,6 +1,10 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (Fallback)
+
+# Этот workflow используется как запасной вариант
+# если основной workflow не работает из-за проблем с environment
 
 on:
+  workflow_dispatch: # Можно запустить вручную
   push:
     branches:
       - main
@@ -10,10 +14,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
@@ -39,7 +39,6 @@ jobs:
           REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
           echo "name=$REPO_NAME" >> $GITHUB_OUTPUT
           echo "Repository name: $REPO_NAME"
-          echo "Full repository: ${{ github.repository }}"
       
       - name: Build
         run: npm run build
