@@ -43,23 +43,9 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-// Base path должен совпадать с base в vite.config.ts
-const getBasePath = () => {
-  // Для продакшена используем base path из vite config
-  // В браузере определяем автоматически
-  if (import.meta.env.PROD) {
-    const path = window.location.pathname;
-    const match = path.match(/^\/([^/]+)\//);
-    if (match && match[1] !== "index.html") {
-      return "/" + match[1] + "/";
-    }
-    return "/Favorite-car/"; // Замените на имя вашего репозитория
-  }
-  return "/";
-};
-
+// Используем BASE_URL из Vite, который автоматически подставляет правильный base path
 const router = createRouter({
-  history: createWebHistory(getBasePath()),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
