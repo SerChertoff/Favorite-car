@@ -1,262 +1,248 @@
-import type { Car } from '@/types'
+import type { Car } from "@/types";
 
 // Моковые данные для демонстрации, когда API недоступен
 export const mockCars: Car[] = [
   {
-    id: '1',
-    brand: 'Toyota',
-    model: 'Camry',
+    id: "1",
+    brand: "Toyota",
+    model: "Camry",
     year: 2022,
     price: 2500000,
     mileage: 15000,
-    fuelType: 'бензин',
-    transmission: 'автомат',
-    bodyType: 'седан',
-    color: 'Белый',
+    fuelType: "бензин",
+    transmission: "автомат",
+    bodyType: "седан",
+    color: "Белый",
     engineVolume: 2.5,
-    description: 'Отличное состояние, один владелец, полная комплектация. Все документы в порядке.',
-    images: [
-      'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=800',
-      'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=800'
-    ],
-    location: 'Москва',
+    description:
+      "Отличное состояние, один владелец, полная комплектация. Все документы в порядке.",
+    images: [],
+    location: "Москва",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    sellerId: '1',
-    sellerName: 'Иван Петров',
-    sellerPhone: '+7 (999) 123-45-67'
+    sellerId: "1",
+    sellerName: "Иван Петров",
+    sellerPhone: "+7 (999) 123-45-67",
   },
   {
-    id: '2',
-    brand: 'BMW',
-    model: 'X5',
+    id: "2",
+    brand: "BMW",
+    model: "X5",
     year: 2021,
     price: 4500000,
     mileage: 25000,
-    fuelType: 'бензин',
-    transmission: 'автомат',
-    bodyType: 'внедорожник',
-    color: 'Черный',
+    fuelType: "бензин",
+    transmission: "автомат",
+    bodyType: "внедорожник",
+    color: "Черный",
     engineVolume: 3.0,
-    description: 'Премиум комплектация, кожаный салон, панорамная крыша. Идеальное состояние.',
-    images: [
-      'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800',
-      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800'
-    ],
-    location: 'Санкт-Петербург',
+    description:
+      "Премиум комплектация, кожаный салон, панорамная крыша. Идеальное состояние.",
+    images: [],
+    location: "Санкт-Петербург",
     createdAt: new Date(Date.now() - 86400000).toISOString(),
     updatedAt: new Date(Date.now() - 86400000).toISOString(),
-    sellerId: '2',
-    sellerName: 'Мария Сидорова',
-    sellerPhone: '+7 (999) 234-56-78'
+    sellerId: "2",
+    sellerName: "Мария Сидорова",
+    sellerPhone: "+7 (999) 234-56-78",
   },
   {
-    id: '3',
-    brand: 'Mercedes-Benz',
-    model: 'C-Class',
+    id: "3",
+    brand: "Mercedes-Benz",
+    model: "C-Class",
     year: 2023,
     price: 3200000,
     mileage: 5000,
-    fuelType: 'бензин',
-    transmission: 'автомат',
-    bodyType: 'седан',
-    color: 'Серебристый',
+    fuelType: "бензин",
+    transmission: "автомат",
+    bodyType: "седан",
+    color: "Серебристый",
     engineVolume: 2.0,
-    description: 'Новый автомобиль, почти без пробега. Все гарантии сохранены.',
-    images: [
-      'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800',
-      'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=800'
-    ],
-    location: 'Москва',
+    description: "Новый автомобиль, почти без пробега. Все гарантии сохранены.",
+    images: [],
+    location: "Москва",
     createdAt: new Date(Date.now() - 172800000).toISOString(),
     updatedAt: new Date(Date.now() - 172800000).toISOString(),
-    sellerId: '3',
-    sellerName: 'Алексей Иванов',
-    sellerPhone: '+7 (999) 345-67-89'
+    sellerId: "3",
+    sellerName: "Алексей Иванов",
+    sellerPhone: "+7 (999) 345-67-89",
   },
   {
-    id: '4',
-    brand: 'Audi',
-    model: 'A4',
+    id: "4",
+    brand: "Audi",
+    model: "A4",
     year: 2020,
     price: 2800000,
     mileage: 40000,
-    fuelType: 'бензин',
-    transmission: 'автомат',
-    bodyType: 'седан',
-    color: 'Синий',
+    fuelType: "бензин",
+    transmission: "автомат",
+    bodyType: "седан",
+    color: "Синий",
     engineVolume: 2.0,
-    description: 'Отличное техническое состояние, регулярное ТО. Без ДТП.',
-    images: [
-      'https://images.unsplash.com/photo-1606664515524-ed2f786a0ad6?w=800',
-      'https://images.unsplash.com/photo-1606664515524-ed2f786a0ad6?w=800'
-    ],
-    location: 'Казань',
+    description: "Отличное техническое состояние, регулярное ТО. Без ДТП.",
+    images: [],
+    location: "Казань",
     createdAt: new Date(Date.now() - 259200000).toISOString(),
     updatedAt: new Date(Date.now() - 259200000).toISOString(),
-    sellerId: '4',
-    sellerName: 'Дмитрий Смирнов',
-    sellerPhone: '+7 (999) 456-78-90'
+    sellerId: "4",
+    sellerName: "Дмитрий Смирнов",
+    sellerPhone: "+7 (999) 456-78-90",
   },
   {
-    id: '5',
-    brand: 'Volkswagen',
-    model: 'Tiguan',
+    id: "5",
+    brand: "Volkswagen",
+    model: "Tiguan",
     year: 2021,
     price: 2200000,
     mileage: 30000,
-    fuelType: 'бензин',
-    transmission: 'автомат',
-    bodyType: 'внедорожник',
-    color: 'Белый',
+    fuelType: "бензин",
+    transmission: "автомат",
+    bodyType: "внедорожник",
+    color: "Белый",
     engineVolume: 2.0,
-    description: 'Семейный автомобиль в отличном состоянии. Все документы готовы.',
-    images: [
-      'https://images.unsplash.com/photo-1606664515524-ed2f786a0ad6?w=800',
-      'https://images.unsplash.com/photo-1606664515524-ed2f786a0ad6?w=800'
-    ],
-    location: 'Екатеринбург',
+    description:
+      "Семейный автомобиль в отличном состоянии. Все документы готовы.",
+    images: [],
+    location: "Екатеринбург",
     createdAt: new Date(Date.now() - 345600000).toISOString(),
     updatedAt: new Date(Date.now() - 345600000).toISOString(),
-    sellerId: '5',
-    sellerName: 'Ольга Козлова',
-    sellerPhone: '+7 (999) 567-89-01'
+    sellerId: "5",
+    sellerName: "Ольга Козлова",
+    sellerPhone: "+7 (999) 567-89-01",
   },
   {
-    id: '6',
-    brand: 'Hyundai',
-    model: 'Solaris',
+    id: "6",
+    brand: "Hyundai",
+    model: "Solaris",
     year: 2022,
     price: 1500000,
     mileage: 20000,
-    fuelType: 'бензин',
-    transmission: 'механика',
-    bodyType: 'седан',
-    color: 'Красный',
+    fuelType: "бензин",
+    transmission: "механика",
+    bodyType: "седан",
+    color: "Красный",
     engineVolume: 1.6,
-    description: 'Экономичный и надежный автомобиль. Идеален для города.',
-    images: [
-      'https://images.unsplash.com/photo-1606664515524-ed2f786a0ad6?w=800',
-      'https://images.unsplash.com/photo-1606664515524-ed2f786a0ad6?w=800'
-    ],
-    location: 'Новосибирск',
+    description: "Экономичный и надежный автомобиль. Идеален для города.",
+    images: [],
+    location: "Новосибирск",
     createdAt: new Date(Date.now() - 432000000).toISOString(),
     updatedAt: new Date(Date.now() - 432000000).toISOString(),
-    sellerId: '6',
-    sellerName: 'Сергей Волков',
-    sellerPhone: '+7 (999) 678-90-12'
-  }
-]
+    sellerId: "6",
+    sellerName: "Сергей Волков",
+    sellerPhone: "+7 (999) 678-90-12",
+  },
+];
 
 // Функция для фильтрации моковых данных
 export function filterMockCars(
   cars: Car[],
   filters?: {
-    brand?: string
-    model?: string
-    minYear?: number
-    maxYear?: number
-    minPrice?: number
-    maxPrice?: number
-    fuelType?: string
-    transmission?: string
-    bodyType?: string
-    location?: string
+    brand?: string;
+    model?: string;
+    minYear?: number;
+    maxYear?: number;
+    minPrice?: number;
+    maxPrice?: number;
+    fuelType?: string;
+    transmission?: string;
+    bodyType?: string;
+    location?: string;
   }
 ): Car[] {
-  let filtered = [...cars]
+  let filtered = [...cars];
 
   if (filters?.brand) {
-    filtered = filtered.filter(car => 
+    filtered = filtered.filter((car) =>
       car.brand.toLowerCase().includes(filters.brand!.toLowerCase())
-    )
+    );
   }
 
   if (filters?.model) {
-    filtered = filtered.filter(car => 
+    filtered = filtered.filter((car) =>
       car.model.toLowerCase().includes(filters.model!.toLowerCase())
-    )
+    );
   }
 
   if (filters?.minYear) {
-    filtered = filtered.filter(car => car.year >= filters.minYear!)
+    filtered = filtered.filter((car) => car.year >= filters.minYear!);
   }
 
   if (filters?.maxYear) {
-    filtered = filtered.filter(car => car.year <= filters.maxYear!)
+    filtered = filtered.filter((car) => car.year <= filters.maxYear!);
   }
 
   if (filters?.minPrice) {
-    filtered = filtered.filter(car => car.price >= filters.minPrice!)
+    filtered = filtered.filter((car) => car.price >= filters.minPrice!);
   }
 
   if (filters?.maxPrice) {
-    filtered = filtered.filter(car => car.price <= filters.maxPrice!)
+    filtered = filtered.filter((car) => car.price <= filters.maxPrice!);
   }
 
   if (filters?.fuelType) {
-    filtered = filtered.filter(car => car.fuelType === filters.fuelType)
+    filtered = filtered.filter((car) => car.fuelType === filters.fuelType);
   }
 
   if (filters?.transmission) {
-    filtered = filtered.filter(car => car.transmission === filters.transmission)
+    filtered = filtered.filter(
+      (car) => car.transmission === filters.transmission
+    );
   }
 
   if (filters?.bodyType) {
-    filtered = filtered.filter(car => car.bodyType === filters.bodyType)
+    filtered = filtered.filter((car) => car.bodyType === filters.bodyType);
   }
 
   if (filters?.location) {
-    filtered = filtered.filter(car => 
+    filtered = filtered.filter((car) =>
       car.location.toLowerCase().includes(filters.location!.toLowerCase())
-    )
+    );
   }
 
-  return filtered
+  return filtered;
 }
 
 // Функция для сортировки моковых данных
 export function sortMockCars(
   cars: Car[],
   sortBy?: string,
-  sortOrder: 'asc' | 'desc' = 'desc'
+  sortOrder: "asc" | "desc" = "desc"
 ): Car[] {
-  const sorted = [...cars]
+  const sorted = [...cars];
 
-  if (!sortBy) return sorted
+  if (!sortBy) return sorted;
 
   sorted.sort((a, b) => {
-    let aValue: any
-    let bValue: any
+    let aValue: any;
+    let bValue: any;
 
     switch (sortBy) {
-      case 'price':
-        aValue = a.price
-        bValue = b.price
-        break
-      case 'year':
-        aValue = a.year
-        bValue = b.year
-        break
-      case 'mileage':
-        aValue = a.mileage
-        bValue = b.mileage
-        break
-      case 'createdAt':
-        aValue = new Date(a.createdAt).getTime()
-        bValue = new Date(b.createdAt).getTime()
-        break
+      case "price":
+        aValue = a.price;
+        bValue = b.price;
+        break;
+      case "year":
+        aValue = a.year;
+        bValue = b.year;
+        break;
+      case "mileage":
+        aValue = a.mileage;
+        bValue = b.mileage;
+        break;
+      case "createdAt":
+        aValue = new Date(a.createdAt).getTime();
+        bValue = new Date(b.createdAt).getTime();
+        break;
       default:
-        return 0
+        return 0;
     }
 
-    if (sortOrder === 'asc') {
-      return aValue > bValue ? 1 : -1
+    if (sortOrder === "asc") {
+      return aValue > bValue ? 1 : -1;
     } else {
-      return aValue < bValue ? 1 : -1
+      return aValue < bValue ? 1 : -1;
     }
-  })
+  });
 
-  return sorted
+  return sorted;
 }
-

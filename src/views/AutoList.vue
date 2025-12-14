@@ -13,7 +13,7 @@
         {{ error }}
       </div>
       
-      <div v-else-if="cars.length === 0" class="empty-state">
+      <div v-else-if="!cars || cars.length === 0" class="empty-state">
         <p>Автомобили не найдены</p>
         <p>Попробуйте изменить параметры поиска</p>
       </div>
@@ -83,9 +83,9 @@ async function loadCars(page = 1, reset = false) {
     const response = await apiService.getCars(params)
     
     if (reset) {
-      cars.value = response.cars
+      cars.value = response?.cars || []
     } else {
-      cars.value.push(...response.cars)
+      cars.value.push(...(response?.cars || []))
     }
     
     total.value = response.total

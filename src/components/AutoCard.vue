@@ -2,14 +2,16 @@
   <div class="auto-card card" @click="goToDetail">
     <div class="card-image">
       <img
-        :src="
-          car.images && car.images.length > 0
-            ? car.images[0]
-            : '/placeholder-car.jpg'
-        "
+        v-if="car.images && car.images.length > 0"
+        :src="car.images[0]"
         :alt="`${car.brand} ${car.model}`"
         @error="handleImageError"
+        loading="lazy"
       />
+      <div v-else class="image-placeholder">
+        <div class="placeholder-icon">🚗</div>
+        <div class="placeholder-text">{{ car.brand }} {{ car.model }}</div>
+      </div>
       <button
         @click.stop="toggleFavorite"
         class="favorite-btn"
@@ -83,7 +85,28 @@ function formatMileage(mileage: number): string {
 
 function handleImageError(event: Event) {
   const target = event.target as HTMLImageElement;
-  target.src = "https://via.placeholder.com/400x300?text=No+Image";
+  // Пробуем следующее изображение из массива
+  const currentSrc = target.src;
+  const carImages = props.car.images || [];
+  const currentIndex = carImages.findIndex(img => {
+    try {
+      return img === currentSrc || currentSrc.includes(img) || new URL(img).href === new URL(currentSrc).href;
+    } catch {
+      return img === currentSrc || currentSrc.includes(img);
+    }
+  });
+  
+  if (currentIndex >= 0 && currentIndex < carImages.length - 1) {
+    // Пробуем следующее изображение
+    target.src = carImages[currentIndex + 1];
+  } else if (carImages.length > 0 && currentIndex < 0) {
+    // Если текущий src не найден в массиве, пробуем первое изображение
+    target.src = carImages[0];
+  } else {
+    // Если все изображения не загрузились, используем placeholder
+    target.src = `https://via.placeholder.com/800/1e293b/ffffff?text=${encodeURIComponent(props.car.brand + ' ' + props.car.model)}`;
+    target.style.objectFit = 'cover';
+  }
 }
 </script>
 
@@ -99,21 +122,63 @@ function handleImageError(event: Event) {
 .card-image {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 220px;
   overflow: hidden;
-  background: var(--bg-darker);
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
   border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-image::before {
+  content: '🚗';
+  position: absolute;
+  font-size: 64px;
+  opacity: 0.3;
+  z-index: 0;
 }
 
 .card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: var(--transition);
+  transition: transform 0.3s ease;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  position: relative;
+  z-index: 1;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  position: relative;
+  z-index: 1;
+}
+
+.placeholder-icon {
+  font-size: 64px;
+  opacity: 0.5;
+  margin-bottom: 12px;
+  filter: grayscale(100%);
+}
+
+.placeholder-text {
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  padding: 0 16px;
+  opacity: 0.7;
 }
 
 .auto-card:hover .card-image img {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .favorite-btn {

@@ -9,12 +9,26 @@ class ApiService {
   constructor() {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
     // Определяем, нужно ли использовать моковые данные по умолчанию
-    // В продакшене, если API URL указывает на localhost, используем моковые данные
-    this.useMockData = import.meta.env.PROD && (apiUrl.includes('localhost') || !import.meta.env.VITE_API_URL)
+    // В продакшене на GitHub Pages API недоступен, поэтому всегда используем моковые данные
+    const isProduction = import.meta.env.PROD
+    const isLocalhost = apiUrl.includes('localhost') || apiUrl.includes('127.0.0.1')
+    
+    // Используем моковые данные если:
+    // 1. В продакшене (GitHub Pages) - всегда используем моковые данные
+    // 2. Или API URL указывает на localhost (в продакшене это означает отсутствие реального API)
+    // 3. Или в разработке, но API URL указывает на localhost (для демо)
+    this.useMockData = isProduction || isLocalhost
+    
+    console.log('API Service init:', { 
+      isProduction, 
+      apiUrl, 
+      useMockData: this.useMockData,
+      mockCarsCount: mockCars.length 
+    })
 
     this.api = axios.create({
       baseURL: apiUrl,
-      timeout: 5000, // Уменьшаем таймаут для быстрого переключения на моковые данные
+      timeout: 3000, // Короткий таймаут для быстрого переключения на моковые данные
       headers: {
         'Content-Type': 'application/json'
       }
@@ -34,27 +48,39 @@ class ApiService {
   async getCars(params?: CarSearchParams): Promise<{ cars: Car[]; total: number }> {
     // Если используем моковые данные по умолчанию (в продакшене без API)
     if (this.useMockData) {
-      return this.getMockCars(params)
+      console.log('Используем моковые данные (useMockData = true)')
+      const result = this.getMockCars(params)
+      console.log('Моковые данные возвращены:', result)
+      return result
     }
 
     // Пытаемся получить данные с API
     try {
       const response = await this.api.get('/cars', { params })
-      return response.data
+      // Убеждаемся, что response.data имеет правильную структуру
+      if (response.data && Array.isArray(response.data.cars)) {
+        return response.data
+      }
+      // Если структура неправильная, используем моковые данные
+      console.warn('Неправильная структура ответа API, используем моковые данные')
+      return this.getMockCars(params)
     } catch (error) {
       // Если ошибка сети или CORS, используем моковые данные
-      if (error instanceof AxiosError && (error.code === 'ERR_NETWORK' || error.code === 'ERR_CORS')) {
-        console.warn('API недоступен, используем моковые данные')
+      if (error instanceof AxiosError && (error.code === 'ERR_NETWORK' || error.code === 'ERR_CORS' || error.message.includes('CORS'))) {
+        console.warn('API недоступен, используем моковые данные:', error.code)
         return this.getMockCars(params)
       }
       console.error('Ошибка при получении списка автомобилей:', error)
-      throw error
+      // В любом случае, если API не работает, возвращаем моковые данные
+      console.warn('Возвращаем моковые данные из-за ошибки API')
+      return this.getMockCars(params)
     }
   }
 
   // Получить моковые данные
   private getMockCars(params?: CarSearchParams): { cars: Car[]; total: number } {
     let cars = [...mockCars]
+    console.log('getMockCars вызван, исходное количество:', cars.length)
 
     // Применяем фильтры
     if (params) {
@@ -70,6 +96,7 @@ class ApiService {
         bodyType: params.bodyType,
         location: params.location
       })
+      console.log('После фильтрации:', cars.length)
 
       // Применяем сортировку
       if (params.sortBy) {
@@ -83,6 +110,7 @@ class ApiService {
     const page = params?.page || 1
     const offset = (page - 1) * limit
     cars = cars.slice(offset, offset + limit)
+    console.log('После пагинации:', cars.length, 'из', total)
 
     return { cars, total }
   }

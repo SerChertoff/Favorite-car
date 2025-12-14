@@ -40,7 +40,7 @@
       </div>
     </section>
 
-    <section class="popular-cars" v-if="popularCars.length > 0">
+    <section class="popular-cars" v-if="popularCars && popularCars.length > 0">
       <div class="container">
         <h2 class="section-title">Популярные автомобили</h2>
         <div class="cars-grid">
@@ -67,9 +67,11 @@ const popularCars = ref<Car[]>([])
 onMounted(async () => {
   try {
     const response = await apiService.getCars({ limit: 6, sortBy: 'createdAt', sortOrder: 'desc' })
-    popularCars.value = response.cars
+    popularCars.value = response?.cars || []
+    console.log('Загружено популярных автомобилей:', popularCars.value.length)
   } catch (error) {
     console.error('Ошибка при загрузке популярных автомобилей:', error)
+    popularCars.value = []
   }
 })
 </script>
