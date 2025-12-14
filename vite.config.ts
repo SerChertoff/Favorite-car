@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 // Определяем base path для GitHub Pages
 // Если репозиторий называется по-другому, измените это значение
-// Например: '/Love-car/' или '/your-repo-name/'
+// Например: '/Favorite-car/' или '/your-repo-name/'
 const base = process.env.VITE_BASE_PATH || (process.env.NODE_ENV === 'production' ? '/favorite-car/' : '/')
 
 // https://vitejs.dev/config/
