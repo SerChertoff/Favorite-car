@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Favorite Car - Авто-площадка</title>
+    <script type="text/javascript">
+      // GitHub Pages 404 redirect для SPA
+      // Автоматически определяет base path из URL
+      var pathSegmentsToKeep = 1;
+      var l = window.location;
+      var pathParts = l.pathname.split('/').filter(function(p) { return p.length > 0; });
+      var basePath = '/';
+      
+      if (pathParts.length > 0 && pathParts[0] !== 'index.html') {
+        basePath = '/' + pathParts[0] + '/';
+      } else {
+        // Если не можем определить, используем дефолтный
+        basePath = '/Favorite-car/'; // Замените на имя вашего репозитория
+      }
+      
+      var redirectPath = basePath + 'index.html';
+      if (l.pathname !== basePath && l.pathname !== redirectPath) {
+        var newPath = basePath + 'index.html' + 
+          (l.pathname ? '#' + l.pathname.replace(basePath, '') : '') +
+          (l.search ? l.search : '') +
+          (l.hash ? l.hash : '');
+        window.location.replace(newPath);
+      }
+    </script>
+  </head>
+  <body>
+    <p>Перенаправление...</p>
+    <script>
+      // Если скрипт не сработал, попробуем прямой редирект
+      setTimeout(function() {
+        var base = window.location.pathname.split('/')[1];
+        if (base) {
+          window.location.href = '/' + base + '/index.html';
+        } else {
+          window.location.href = '/index.html';
+        }
+      }, 100);
+    </script>
+  </body>
+</html>
+
