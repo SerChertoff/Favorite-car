@@ -61,7 +61,7 @@ const getBasePath = () => {
 const router = createRouter({
   history: createWebHistory(getBasePath()),
   routes,
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(_to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition;
     } else {
@@ -71,7 +71,7 @@ const router = createRouter({
 });
 
 // Навигационный guard для защищенных маршрутов!
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const authStore = useAuthStore();
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {

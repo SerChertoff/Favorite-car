@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { Car } from '@/types'
 import apiService from '@/services/api'
 import { useFavoritesStore } from '@/store/favorites'

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import type { Car } from '@/types'
 
 export const useFavoritesStore = defineStore('favorites', () => {
   const favoriteIds = ref<string[]>([])

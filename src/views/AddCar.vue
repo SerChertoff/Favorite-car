@@ -178,6 +178,12 @@ async function handleSubmit() {
     return
   }
   
+  // Валидация обязательных полей
+  if (!form.fuelType || !form.transmission || !form.bodyType) {
+    error.value = 'Пожалуйста, заполните все обязательные поля'
+    return
+  }
+  
   loading.value = true
   error.value = ''
   success.value = false
@@ -188,8 +194,20 @@ async function handleSubmit() {
       .map(url => url.trim())
       .filter(url => url.length > 0)
     
+    // Создаем объект с правильными типами (без пустых строк)
     const carData = {
-      ...form,
+      brand: form.brand,
+      model: form.model,
+      year: form.year,
+      price: form.price,
+      mileage: form.mileage,
+      fuelType: form.fuelType as 'бензин' | 'дизель' | 'электричество' | 'гибрид',
+      transmission: form.transmission as 'механика' | 'автомат' | 'робот' | 'вариатор',
+      bodyType: form.bodyType as 'седан' | 'хэтчбек' | 'универсал' | 'внедорожник' | 'купе' | 'кабриолет',
+      color: form.color,
+      engineVolume: form.engineVolume,
+      description: form.description,
+      location: form.location,
       images
     }
     
