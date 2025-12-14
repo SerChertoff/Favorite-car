@@ -56,7 +56,7 @@ const router = createRouter({
   },
 });
 
-// Навигационный guard для защищенных маршрутов
+// Навигационный guard для защищенных маршрутов!
 router.beforeEach((to, _from, next) => {
   const authStore = useAuthStore();
 
