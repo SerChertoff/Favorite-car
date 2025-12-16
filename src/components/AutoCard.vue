@@ -88,14 +88,18 @@ function handleImageError(event: Event) {
   // Пробуем следующее изображение из массива
   const currentSrc = target.src;
   const carImages = props.car.images || [];
-  const currentIndex = carImages.findIndex(img => {
+  const currentIndex = carImages.findIndex((img) => {
     try {
-      return img === currentSrc || currentSrc.includes(img) || new URL(img).href === new URL(currentSrc).href;
+      return (
+        img === currentSrc ||
+        currentSrc.includes(img) ||
+        new URL(img).href === new URL(currentSrc).href
+      );
     } catch {
       return img === currentSrc || currentSrc.includes(img);
     }
   });
-  
+
   if (currentIndex >= 0 && currentIndex < carImages.length - 1) {
     // Пробуем следующее изображение
     target.src = carImages[currentIndex + 1];
@@ -104,8 +108,10 @@ function handleImageError(event: Event) {
     target.src = carImages[0];
   } else {
     // Если все изображения не загрузились, используем placeholder
-    target.src = `https://via.placeholder.com/800/1e293b/ffffff?text=${encodeURIComponent(props.car.brand + ' ' + props.car.model)}`;
-    target.style.objectFit = 'cover';
+    target.src = `https://via.placeholder.com/800/1e293b/ffffff?text=${encodeURIComponent(
+      props.car.brand + " " + props.car.model
+    )}`;
+    target.style.objectFit = "cover";
   }
 }
 </script>
@@ -132,7 +138,7 @@ function handleImageError(event: Event) {
 }
 
 .card-image::before {
-  content: '🚗';
+  content: "🚗";
   position: absolute;
   font-size: 64px;
   opacity: 0.3;
